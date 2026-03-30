@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Kazmi
+    given-names: Syed Fahim Abbas
+    orcid: "https://orcid.org/0009-0000-5075-9638"
+title: "NPAORF: National Pharmaceutical Asset Optimization & Resilience Framework"
+version: 4.0.0
+doi: 10.5281/zenodo.19310968
+date-released: 2026-03-29
+url: "https://github.com/fahimkazmi911/NPAORF-Platform"
+license: CC-BY-4.0
+keywords:
+  - predictive-maintenance
+  - pharmaceutical-manufacturing
+  - drug-shortage-prevention
+  - machine-learning
+  - gxp-compliance
+  - 21-cfr-part-11
+  - supply-chain-resilience
+  - executive-order-14017
+  - hardware-agnostic
+  - kazmi-methodology
+references:
+  - type: article
+    authors:
+      - family-names: Kazmi
+        given-names: Syed Fahim Abbas
+        orcid: "https://orcid.org/0009-0000-5075-9638"
+    title: "NPAORF: A Hardware-Agnostic Infrastructure for Mitigating 2026 Drug Shortages via GxP-Compliant Predictive Maintenance"
+    year: 2026
+    doi: 10.5281/zenodo.19310968
+    publisher:
+      name: Zenodo
