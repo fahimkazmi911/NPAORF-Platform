@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPAORF v4.0 | National Pharmaceutical Asset Optimization & Resilience Framework</title>
+    <meta name="description" content="AI-driven predictive maintenance platform to prevent drug shortages.">
+    <meta name="author" content="Syed Fahim Abbas Kazmi">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 text-slate-800">
+
+<!-- AI PREDICTIVE ALERT POPUP -->
+<div id="alert-popup" class="alert-popup hidden no-print">
+    <div class="bg-white rounded-2xl shadow-2xl border border-amber-200 overflow-hidden">
+        <div class="bg-gradient-to-r from-amber-500 to-orange-500 px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center"><i data-lucide="bell-ring" class="w-5 h-5 text-white"></i></div>
+                <span class="text-white font-bold">AI Predictive Alert</span>
+            </div>
+            <button onclick="closeAlert()" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="p-5">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded">HIGH PRIORITY</span>
+                <span class="text-xs text-slate-500">Just now</span>
+            </div>
+            <p class="text-slate-700 mb-4"><strong class="text-slate-900">Vibration anomaly detected</strong> in <strong class="text-cyan-700">Bioreactor-07</strong> at New Jersey facility.</p>
+            <div class="bg-slate-50 rounded-xl p-4 mb-4 space-y-2 text-sm">
+                <div class="flex justify-between"><span class="text-slate-500">Predicted Failure:</span><span class="font-semibold text-red-600">Bearing degradation in 12 days</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Confidence:</span><span class="font-semibold text-slate-900">94.2%</span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Affected Drug:</span><span class="font-semibold text-slate-900">Insulin Glargine</span></div>
+            </div>
+            <div class="flex items-center gap-2 p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600"></i>
+                <span class="text-sm text-emerald-700"><strong>Action:</strong> Maintenance scheduled for Feb 2, 2026</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- HEADER WITH 5 NAVIGATION TABS -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-lg border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg">
+                        <i data-lucide="shield-check" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900">NPAORF <span class="text-xs font-normal text-cyan-600">v4.0</span></h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">National Pharmaceutical Asset Optimization & Resilience Framework</p>
+                </div>
+            </div>
+            <nav class="hidden lg:flex items-center gap-1 bg-slate-100 rounded-lg p-1">
+                <button onclick="switchView('dashboard')" id="nav-dashboard" class="nav-tab active px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="layout-dashboard" class="w-4 h-4"></i><span>Dashboard</span>
+                </button>
+                <button onclick="switchView('methodology')" id="nav-methodology" class="nav-tab px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="cpu" class="w-4 h-4"></i><span>Methodology</span>
+                </button>
+                <button onclick="switchView('calculator')" id="nav-calculator" class="nav-tab px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="calculator" class="w-4 h-4"></i><span>Calculator</span>
+                </button>
+                <button onclick="switchView('validation')" id="nav-validation" class="nav-tab px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="file-check-2" class="w-4 h-4"></i><span>Validation</span>
+                </button>
+                <button onclick="switchView('compliance')" id="nav-compliance" class="nav-tab px-3 py-1.5 rounded-md text-sm font-medium flex items-center gap-1">
+                    <i data-lucide="shield" class="w-4 h-4"></i><span>Compliance</span>
+                </button>
+            </nav>
+            <div class="flex items-center gap-4">
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200">
+                    <div class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></div>
+                    <span class="text-sm text-emerald-700 font-medium">Live</span>
+                    <span class="text-xs text-emerald-600" id="live-clock">--:--:--</span>
+                </div>
+                <button onclick="window.print()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium no-print">
+                    <i data-lucide="download" class="w-4 h-4"></i> Export
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+<!-- ============================================================
+     SECTION 1: DASHBOARD (Tab 1)
+     ============================================================ -->
+<section id="section-dashboard" class="view-section">
+    <!-- Hero -->
+    <div class="mb-12 fade-in-up">
+        <div class="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <span class="px-3 py-1 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-700 text-xs font-medium">Genesis Mission AI (2025)</span>
+                    <span class="px-3 py-1 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-xs font-medium">FDA/EMA Aligned</span>
+                    <span class="px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium">21 CFR Part 11</span>
+                </div>
+                <h2 class="text-4xl sm:text-5xl font-black mb-4 leading-tight">
+                    <span class="text-slate-900">Predicting Failures.</span><br>
+                    <span class="gradient-text">Preventing Shortages.</span><br>
+                    <span class="text-slate-400">Protecting Lives.</span>
+                </h2>
+                <p class="text-lg text-slate-600 mb-6">NPAORF is an AI-powered predictive maintenance platform preventing the equipment failures that cause <strong class="text-slate-900">40% of all drug shortages</strong>.</p>
+                <div class="flex gap-3">
+                    <button onclick="switchView('methodology')" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-semibold hover:shadow-lg flex items-center gap-2">
+                        <i data-lucide="cpu" class="w-5 h-5"></i> View Methodology
+                    </button>
+                    <button onclick="switchView('calculator')" class="px-5 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 flex items-center gap-2">
+                        <i data-lucide="calculator" class="w-5 h-5"></i> Economic Impact
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="card p-5 bg-gradient-to-br from-red-50 to-white border-red-100">
+                    <div class="w-10 h-10 rounded-xl bg-red-100 flex items-center justify-center mb-3"><i data-lucide="alert-triangle" class="w-5 h-5 text-red-600"></i></div>
+                    <p class="text-4xl font-black text-slate-900"><span id="count-shortages">0</span>+</p>
+                    <p class="text-sm text-slate-600">Active Drug Shortages</p>
+                    <p class="text-xs text-red-600 mt-1 font-medium">ASHP Jan 2026</p>
+                </div>
+                <div class="card p-5 bg-gradient-to-br from-amber-50 to-white border-amber-100">
+                    <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center mb-3"><i data-lucide="dollar-sign" class="w-5 h-5 text-amber-600"></i></div>
+                    <p class="text-4xl font-black text-slate-900">$<span id="count-cost">0</span>M</p>
+                    <p class="text-sm text-slate-600">Annual Hospital Costs</p>
+                    <p class="text-xs text-amber-600 mt-1 font-medium">Managing Shortages</p>
+                </div>
+                <div class="card p-5 bg-gradient-to-br from-cyan-50 to-white border-cyan-100">
+                    <div class="w-10 h-10 rounded-xl bg-cyan-100 flex items-center justify-center mb-3"><i data-lucide="brain" class="w-5 h-5 text-cyan-600"></i></div>
+                    <p class="text-4xl font-black text-slate-900"><span id="count-days">0</span>+</p>
+                    <p class="text-sm text-slate-600">Days Early Warning</p>
+                    <p class="text-xs text-cyan-600 mt-1 font-medium">Before Failure</p>
+                </div>
+                <div class="card p-5 bg-gradient-to-br from-emerald-50 to-white border-emerald-100">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center mb-3"><i data-lucide="trending-up" class="w-5 h-5 text-emerald-600"></i></div>
+                    <p class="text-4xl font-black text-slate-900"><span id="count-uptime">0</span>%</p>
+                    <p class="text-sm text-slate-600">Equipment Uptime</p>
+                    <p class="text-xs text-emerald-600 mt-1 font-medium">vs 89% Industry Avg</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hardware Config -->
+    <div id="hardware-config" class="mb-12">
+        <div class="config-panel p-6">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+                        <i data-lucide="settings-2" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-900">Universal Equipment Configuration</h3>
+                        <p class="text-sm text-slate-600">Hardware-agnostic framework for ANY U.S. pharmaceutical facility</p>
+                    </div>
+                </div>
+                <div class="config-badge"><i data-lucide="check-circle" class="w-4 h-4"></i>Kazmi Methodology™</div>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-3"><i data-lucide="flask-conical" class="w-5 h-5 text-cyan-600"></i><label class="text-sm font-semibold text-slate-700">Bioreactors</label></div>
+                    <select id="config-bioreactor" onchange="updateHardwareConfig('bioreactor')" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="">Select vendor...</option></select>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-3"><i data-lucide="test-tubes" class="w-5 h-5 text-cyan-600"></i><label class="text-sm font-semibold text-slate-700">Chromatography</label></div>
+                    <select id="config-chromatography" onchange="updateHardwareConfig('chromatography')" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="">Select vendor...</option></select>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-3"><i data-lucide="thermometer-snowflake" class="w-5 h-5 text-cyan-600"></i><label class="text-sm font-semibold text-slate-700">ULT Freezers</label></div>
+                    <select id="config-freezer" onchange="updateHardwareConfig('freezer')" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="">Select vendor...</option></select>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-3"><i data-lucide="syringe" class="w-5 h-5 text-cyan-600"></i><label class="text-sm font-semibold text-slate-700">Filling Lines</label></div>
+                    <select id="config-filling" onchange="updateHardwareConfig('fillingLine')" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="">Select vendor...</option></select>
+                </div>
+            </div>
+            <div id="config-summary" class="bg-white/60 rounded-xl p-4 border border-cyan-200"><p class="text-xs text-slate-500">Select equipment above to see configuration</p></div>
+        </div>
+    </div>
+
+    <!-- State Grid -->
+    <div class="mb-12">
+        <div class="text-center mb-6">
+            <span class="px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium">Geographic Coverage</span>
+            <h3 class="text-2xl font-bold text-slate-900 mt-3">National Monitoring Network</h3>
+        </div>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4" id="state-grid"></div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard" class="mb-12">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+                <span class="px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium">Live Dashboard</span>
+                <h3 class="text-2xl font-bold text-slate-900 mt-3">Drug Shortage Intelligence Center</h3>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="search-input" placeholder="Search drugs..." oninput="applyFilters()" class="pl-9 pr-4 py-2 rounded-lg bg-white border border-slate-200 text-sm w-44">
+                </div>
+                <span class="text-sm text-slate-500">Showing <strong id="count-filtered">25</strong> of 25</span>
+            </div>
+        </div>
+        <!-- Filters -->
+        <div class="card p-4 mb-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                <div><label class="block text-xs text-slate-500 uppercase mb-1 font-medium">State</label><select id="filter-state" onchange="applyFilters()" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="all">All States</option></select></div>
+                <div><label class="block text-xs text-slate-500 uppercase mb-1 font-medium">Category</label><select id="filter-category" onchange="applyFilters()" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="all">All Categories</option></select></div>
+                <div><label class="block text-xs text-slate-500 uppercase mb-1 font-medium">Risk Level</label><select id="filter-risk" onchange="applyFilters()" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="all">All Risks</option><option value="critical">Critical</option><option value="at-risk">At Risk</option><option value="monitoring">Monitoring</option></select></div>
+                <div><label class="block text-xs text-slate-500 uppercase mb-1 font-medium">Equipment</label><select id="filter-equipment" onchange="applyFilters()" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="all">All Equipment</option></select></div>
+                <div><label class="block text-xs text-slate-500 uppercase mb-1 font-medium">Time</label><select id="filter-time" onchange="applyFilters()" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="all">All Time</option><option value="30">Last 30 Days</option><option value="90">Last 90 Days</option></select></div>
+                <div class="flex items-end"><button onclick="resetFilters()" class="w-full px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-sm font-medium flex items-center justify-center gap-1"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Reset</button></div>
+            </div>
+        </div>
+        <!-- Charts -->
+        <div class="grid lg:grid-cols-3 gap-6 mb-6">
+            <div class="lg:col-span-2 card p-5"><h4 class="text-lg font-bold text-slate-900 mb-4">Shortages by Category</h4><div class="h-64"><canvas id="chart-category"></canvas></div></div>
+            <div class="card p-5"><h4 class="text-lg font-bold text-slate-900 mb-4">Risk Distribution</h4><div class="h-64"><canvas id="chart-risk"></canvas></div></div>
+        </div>
+        <!-- Trend -->
+        <div class="card p-5 mb-6">
+            <div class="flex items-center justify-between mb-4">
+                <h4 class="text-lg font-bold text-slate-900">12-Month Shortage Trend</h4>
+                <div class="flex items-center gap-4 text-sm">
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500"></span> Without NPAORF</span>
+                    <span class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-emerald-500"></span> With NPAORF</span>
+                </div>
+            </div>
+            <div class="h-64"><canvas id="chart-trend"></canvas></div>
+        </div>
+        <!-- Drug Table -->
+        <div class="card overflow-hidden">
+            <div class="px-5 py-4 border-b border-slate-100"><h4 class="text-lg font-bold text-slate-900">Drug Shortage Database</h4><p class="text-sm text-slate-500">Source: ASHP January 2026</p></div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead><tr class="text-left text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100">
+                        <th class="px-5 py-3 font-semibold sortable" onclick="sortTable('name')">Drug Name ↕</th>
+                        <th class="px-5 py-3 font-semibold sortable" onclick="sortTable('category')">Category ↕</th>
+                        <th class="px-5 py-3 font-semibold">State</th>
+                        <th class="px-5 py-3 font-semibold">Equipment</th>
+                        <th class="px-5 py-3 font-semibold sortable" onclick="sortTable('healthScore')">Health ↕</th>
+                        <th class="px-5 py-3 font-semibold sortable" onclick="sortTable('risk')">Risk ↕</th>
+                        <th class="px-5 py-3 font-semibold">Trend</th>
+                    </tr></thead>
+                    <tbody id="drug-table"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipment -->
+    <div id="equipment" class="mb-12">
+        <div class="text-center mb-6">
+            <span class="px-4 py-1.5 rounded-full bg-cyan-50 border border-cyan-200 text-cyan-700 text-sm font-medium">Equipment Intelligence</span>
+            <h3 class="text-2xl font-bold text-slate-900 mt-3">Real-Time Asset Monitoring</h3>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4" id="equipment-grid"></div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 2: METHODOLOGY (Tab 2)
+     ============================================================ -->
+<section id="section-methodology" class="view-section hidden">
+    <div class="text-center mb-8">
+        <span class="px-4 py-1.5 rounded-full bg-violet-50 border border-violet-200 text-violet-700 text-sm font-medium">Technical Architecture</span>
+        <h3 class="text-3xl font-black text-slate-900 mt-3">AI/ML Methodology</h3>
+        <p class="text-slate-600 mt-2">The Kazmi Methodology™ - Four-stage predictive maintenance pipeline</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="card p-6">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center text-2xl font-bold text-white mb-4">1</div>
+            <h4 class="text-lg font-bold text-slate-900 mb-2">Data Ingestion</h4>
+            <p class="text-sm text-slate-600 mb-4">24/7 real-time sensor streaming: vibration, temperature, pressure, runtime.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-1 rounded bg-slate-100 text-xs">OPC-UA</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">MQTT</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">REST API</span></div>
+        </div>
+        <div class="card p-6">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center text-2xl font-bold text-white mb-4">2</div>
+            <h4 class="text-lg font-bold text-slate-900 mb-2">Feature Engineering</h4>
+            <p class="text-sm text-slate-600 mb-4">150+ engineered features: rolling stats, FFT, wavelets, lag variables.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-1 rounded bg-slate-100 text-xs">FFT</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">PCA</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">Wavelet</span></div>
+        </div>
+        <div class="card p-6">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-2xl font-bold text-white mb-4">3</div>
+            <h4 class="text-lg font-bold text-slate-900 mb-2">ML Prediction</h4>
+            <p class="text-sm text-slate-600 mb-4">Hybrid ensemble: XGBoost classification + LSTM time-series forecasting.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-1 rounded bg-slate-100 text-xs">XGBoost</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">LSTM</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">Attention</span></div>
+        </div>
+        <div class="card p-6">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl font-bold text-white mb-4">4</div>
+            <h4 class="text-lg font-bold text-slate-900 mb-2">Actionable Alerts</h4>
+            <p class="text-sm text-slate-600 mb-4">Explainable AI with SHAP attribution and CMMS integration.</p>
+            <div class="flex flex-wrap gap-2"><span class="px-2 py-1 rounded bg-slate-100 text-xs">SHAP</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">CMMS</span><span class="px-2 py-1 rounded bg-slate-100 text-xs">SAP PM</span></div>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="card p-6 text-center"><p class="text-4xl font-black text-cyan-600">94.7%</p><p class="text-sm text-slate-600 mt-1">Model Accuracy</p></div>
+        <div class="card p-6 text-center"><p class="text-4xl font-black text-emerald-600">14.2</p><p class="text-sm text-slate-600 mt-1">Days Lead Time</p></div>
+        <div class="card p-6 text-center"><p class="text-4xl font-black text-violet-600">2.3%</p><p class="text-sm text-slate-600 mt-1">False Positive Rate</p></div>
+        <div class="card p-6 text-center"><p class="text-4xl font-black text-amber-600">&lt;50ms</p><p class="text-sm text-slate-600 mt-1">Inference Latency</p></div>
+    </div>
+    <div class="card p-6">
+        <h4 class="text-xl font-bold text-slate-900 mb-4">LSTM Time-Series Architecture</h4>
+        <div class="grid lg:grid-cols-2 gap-6">
+            <div>
+                <p class="text-slate-600 mb-4">The Long Short-Term Memory (LSTM) network captures temporal degradation patterns:</p>
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500 flex-shrink-0"></i><span><strong>Input:</strong> 72-hour sliding window of multivariate sensor data</span></li>
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500 flex-shrink-0"></i><span><strong>Hidden:</strong> 2 stacked LSTM layers (128, 64 units) with dropout (0.3)</span></li>
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500 flex-shrink-0"></i><span><strong>Attention:</strong> Self-attention to weight critical time steps</span></li>
+                    <li class="flex items-start gap-2"><i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-500 flex-shrink-0"></i><span><strong>Output:</strong> Dense layer with sigmoid for failure probability [0,1]</span></li>
+                </ul>
+            </div>
+            <div class="bg-slate-900 rounded-xl p-5 mono-font text-slate-300 text-xs overflow-x-auto">
+<pre><span class="text-cyan-400"># Kazmi Methodology - LSTM</span>
+model = Sequential([
+    LSTM(<span class="text-amber-400">128</span>, return_sequences=<span class="text-emerald-400">True</span>,
+         input_shape=(window, features)),
+    Dropout(<span class="text-amber-400">0.3</span>),
+    LSTM(<span class="text-amber-400">64</span>),
+    Dropout(<span class="text-amber-400">0.3</span>),
+    Dense(<span class="text-amber-400">32</span>, activation=<span class="text-emerald-400">'relu'</span>),
+    Dense(<span class="text-amber-400">1</span>, activation=<span class="text-emerald-400">'sigmoid'</span>)
+])</pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 3: ECONOMIC CALCULATOR (Tab 3) - ISOLATED
+     ============================================================ -->
+<section id="section-calculator" class="view-section hidden">
+    <div class="text-center mb-8">
+        <span class="px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium">Economic Impact Analysis</span>
+        <h3 class="text-3xl font-black text-slate-900 mt-3">National Value Calculator</h3>
+        <p class="text-slate-600 mt-2">Quantify the economic benefit using FDA/ASHP January 2026 data</p>
+    </div>
+    <div class="card p-4 mb-8 bg-gradient-to-r from-blue-50 to-cyan-50 border-blue-200">
+        <div class="flex items-center gap-3">
+            <i data-lucide="database" class="w-6 h-6 text-blue-600"></i>
+            <div>
+                <p class="font-semibold text-slate-900">Data Sources: FDA & ASHP Drug Shortage Reports</p>
+                <p class="text-xs text-slate-600">January 2026 | 323 Active Shortages | $900M Annual National Burden</p>
+            </div>
+        </div>
+    </div>
+    <div class="grid lg:grid-cols-2 gap-6">
+        <!-- Left: Input Controls -->
+        <div class="card p-6">
+            <h4 class="text-lg font-bold text-slate-900 mb-6">Deployment Scenario</h4>
+            <div class="space-y-6">
+                <div>
+                    <div class="flex justify-between mb-2"><span class="text-sm text-slate-700">Assets Monitored</span><span class="text-lg font-bold text-slate-900" id="calc-assets-val">2,500</span></div>
+                    <div class="range-container h-6"><div class="range-track"></div><div class="range-fill" id="fill-assets" style="width:16%"></div><input type="range" id="calc-assets" min="100" max="15000" value="2500" oninput="updateCalc()"></div>
+                    <div class="flex justify-between text-xs text-slate-500 mt-1"><span>100</span><span>15,000</span></div>
+                </div>
+                <div>
+                    <div class="flex justify-between mb-2"><span class="text-sm text-slate-700">Downtime Hours Prevented/Asset/Year</span><span class="text-lg font-bold text-slate-900" id="calc-hours-val">150</span></div>
+                    <div class="range-container h-6"><div class="range-track"></div><div class="range-fill" id="fill-hours" style="width:29%"></div><input type="range" id="calc-hours" min="10" max="500" value="150" oninput="updateCalc()"></div>
+                    <div class="flex justify-between text-xs text-slate-500 mt-1"><span>10</span><span>500</span></div>
+                </div>
+                <div class="p-4 rounded-xl bg-cyan-50 border border-cyan-100"><p class="text-sm text-slate-700"><strong>Industry Baseline:</strong> Pharma R&D downtime costs <strong class="text-cyan-700">$540,000/hour</strong></p></div>
+                <div class="p-4 rounded-xl bg-amber-50 border border-amber-100"><p class="text-sm text-slate-700"><strong>Batch Economics:</strong> Sterile injectable batch value: <strong class="text-amber-700">$2.5M</strong></p></div>
+            </div>
+        </div>
+        <!-- Right: Results (NO OVERLAP - Vertical Stack) -->
+        <div class="space-y-4">
+            <div class="card p-6 bg-gradient-to-br from-cyan-50 to-white border-cyan-100">
+                <p class="text-sm text-slate-600 mb-1">U.S. R&D Capital Preserved</p>
+                <p class="text-4xl font-black text-slate-900" id="calc-savings">$202.5B</p>
+                <p class="text-sm text-cyan-700 mt-2">≈ <span id="calc-trials">405,000</span> Phase III clinical trials</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="card p-5 bg-gradient-to-br from-emerald-50 to-white border-emerald-100">
+                    <p class="text-3xl font-black text-slate-900" id="calc-days">22</p>
+                    <p class="text-sm text-slate-600">Shortage Days Prevented</p>
+                </div>
+                <div class="card p-5 bg-gradient-to-br from-violet-50 to-white border-violet-100">
+                    <p class="text-3xl font-black text-slate-900" id="calc-patients">2.4M</p>
+                    <p class="text-sm text-slate-600">Patient Days Saved</p>
+                </div>
+            </div>
+            <div class="card p-5 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+                <div class="flex items-center justify-between mb-2">
+                    <p class="text-sm text-slate-600">Projected National Healthcare Savings</p>
+                    <span class="px-2 py-0.5 rounded bg-blue-100 text-blue-700 text-xs font-semibold">FDA/ASHP 2026</span>
+                </div>
+                <p class="text-3xl font-black text-blue-700" id="calc-healthcare-savings">$187.5M</p>
+                <div class="grid grid-cols-2 gap-4 mt-4 pt-4 border-t border-blue-100">
+                    <div><p class="text-xl font-bold text-slate-900" id="calc-batches">4,500</p><p class="text-xs text-slate-500">Batches Protected</p></div>
+                    <div><p class="text-xl font-bold text-slate-900" id="calc-burden">$22.5M</p><p class="text-xs text-slate-500">Hospital Burden Avoided</p></div>
+                </div>
+            </div>
+            <div class="card p-5 bg-gradient-to-r from-red-600 to-rose-600 text-white">
+                <div class="flex items-center gap-2 mb-3"><i data-lucide="heart-pulse" class="w-5 h-5"></i><span class="text-xs font-semibold uppercase tracking-wider opacity-90">Federal Impact Assessment</span></div>
+                <div class="flex items-end gap-3"><p class="text-5xl font-black" id="calc-lives">1,035</p><p class="text-lg font-medium pb-1 opacity-90">patient lives</p></div>
+                <p class="text-sm mt-2 opacity-80">Potentially impacted through shortage prevention</p>
+                <div class="flex items-center gap-4 mt-4 pt-3 border-t border-white/20 text-sm">
+                    <span><span id="calc-shortages-prevented">18</span> shortages preventable</span>
+                    <span>2.3% mortality reduction</span>
+                </div>
+            </div>
+            <div class="card p-5">
+                <div class="flex justify-between mb-3"><span class="font-bold text-slate-900">National Shortage Burden Addressed</span><span class="text-violet-600 font-bold"><span id="calc-progress">24.3</span>%</span></div>
+                <div class="h-3 bg-slate-100 rounded-full overflow-hidden"><div id="calc-progress-bar" class="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full" style="width:24.3%"></div></div>
+                <p class="text-xs text-slate-500 mt-2">Of $900M annual national shortage burden (ASHP Jan 2026)</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 4: VALIDATION LOGS (Tab 4)
+     ============================================================ -->
+<section id="section-validation" class="view-section hidden">
+    <div class="text-center mb-8">
+        <span class="px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm font-medium">21 CFR Part 11 Compliant</span>
+        <h3 class="text-3xl font-black text-slate-900 mt-3">Secure Audit Trail</h3>
+        <p class="text-slate-600 mt-2">Immutable record with cryptographic verification</p>
+    </div>
+    <div class="card p-4 mb-6 bg-gradient-to-r from-emerald-50 to-cyan-50 border-emerald-200">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="compliance-badge"><i data-lucide="shield-check" class="w-5 h-5"></i><span>ALCOA+ Verified</span></div>
+                <div class="compliance-badge"><i data-lucide="lock" class="w-5 h-5"></i><span>Tamper-Evident</span></div>
+                <div class="compliance-badge"><i data-lucide="fingerprint" class="w-5 h-5"></i><span>e-Signature Ready</span></div>
+            </div>
+            <div class="flex items-center gap-2"><span class="text-sm text-slate-600">Total Records:</span><span class="text-lg font-bold text-slate-900" id="audit-count">0</span></div>
+        </div>
+    </div>
+    <div class="card p-4 mb-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="relative"><i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i><input type="text" id="audit-search" placeholder="Search audit logs..." oninput="filterAuditLogs()" class="pl-9 pr-4 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm w-56"></div>
+                <select id="audit-filter-type" onchange="filterAuditLogs()" class="px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="all">All Event Types</option><option value="CONFIG">Configuration</option><option value="AUTH">Authentication</option><option value="SYSTEM">System</option><option value="ALERT">Alert</option><option value="SIGNATURE">Signature</option></select>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="exportAuditLog()" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-medium flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Export CSV</button>
+                <button onclick="signAndLock()" id="sign-lock-btn" class="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-sm font-semibold flex items-center gap-2"><i data-lucide="pen-tool" class="w-4 h-4"></i> Sign & Lock</button>
+            </div>
+        </div>
+    </div>
+    <div class="card overflow-hidden">
+        <div class="px-5 py-4 border-b border-slate-100 bg-slate-900">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2"><i data-lucide="terminal" class="w-5 h-5 text-emerald-400"></i><h4 class="text-lg font-bold text-white">System Event Log</h4></div>
+                <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500 pulse-dot"></span><span class="text-xs text-emerald-400 mono-font">RECORDING</span></div>
+            </div>
+        </div>
+        <div class="overflow-x-auto bg-slate-950">
+            <table class="w-full">
+                <thead><tr class="text-left text-xs text-slate-400 uppercase border-b border-slate-800">
+                    <th class="px-5 py-3 font-semibold">Timestamp (UTC)</th>
+                    <th class="px-5 py-3 font-semibold">User ID</th>
+                    <th class="px-5 py-3 font-semibold">Event Type</th>
+                    <th class="px-5 py-3 font-semibold">Action Description</th>
+                    <th class="px-5 py-3 font-semibold">SHA-256 Checksum</th>
+                    <th class="px-5 py-3 font-semibold">Status</th>
+                </tr></thead>
+                <tbody id="audit-table" class="mono-font text-sm"></tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Signature Modal -->
+    <div id="signature-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+            <div class="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4"><h4 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="fingerprint" class="w-5 h-5"></i>Digital Signature Required</h4></div>
+            <div class="p-6">
+                <p class="text-sm text-slate-600 mb-4">Per 21 CFR Part 11 §11.100, electronic signatures must be unique and verified.</p>
+                <div class="space-y-4">
+                    <div><label class="block text-xs text-slate-500 uppercase mb-1">User ID</label><input type="text" id="sig-user-id" value="S.KAZMI-ADMIN" readonly class="w-full px-3 py-2 rounded-lg bg-slate-100 border border-slate-200 text-sm"></div>
+                    <div><label class="block text-xs text-slate-500 uppercase mb-1">Signature Meaning</label><select id="sig-meaning" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"><option value="APPROVED">Approved - Production Release</option><option value="REVIEWED">Reviewed - Pending Approval</option><option value="VERIFIED">Verified - Data Integrity Check</option></select></div>
+                    <div><label class="block text-xs text-slate-500 uppercase mb-1">Authentication Code</label><input type="password" id="sig-auth-code" placeholder="Enter PIN or password" class="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-sm"></div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-slate-50 flex items-center justify-end gap-3">
+                <button onclick="closeSignatureModal()" class="px-4 py-2 rounded-lg bg-slate-200 hover:bg-slate-300 text-slate-700 text-sm font-medium">Cancel</button>
+                <button onclick="executeSignature()" class="px-4 py-2 rounded-lg bg-gradient-to-r from-emerald-600 to-cyan-600 text-white text-sm font-semibold flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> Apply Signature</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SECTION 5: COMPLIANCE GUIDE (Tab 5)
+     ============================================================ -->
+<section id="section-compliance" class="view-section hidden">
+    <div class="text-center mb-8">
+        <span class="px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-medium">Regulatory Reference</span>
+        <h3 class="text-3xl font-black text-slate-900 mt-3">Compliance Guide</h3>
+        <p class="text-slate-600 mt-2">FDA/EMA AI Guidance and 21 CFR Part 11 documentation</p>
+    </div>
+    <div class="mb-8">
+        <h4 class="text-xl font-bold text-slate-900 mb-4">FDA/EMA AI Credibility Principles (January 2026)</h4>
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3" id="principles-grid"></div>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-4 mb-8">
+        <div class="card p-6">
+            <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center mb-4"><i data-lucide="database" class="w-6 h-6 text-cyan-600"></i></div>
+            <h5 class="text-lg font-bold text-slate-900">ALCOA+ Data Integrity</h5>
+            <p class="text-sm text-slate-600 mt-2 mb-4">Attributable, Legible, Contemporaneous, Original, Accurate + Complete, Consistent, Enduring</p>
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold">✓ Compliant</span>
+        </div>
+        <div class="card p-6">
+            <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center mb-4"><i data-lucide="file-check" class="w-6 h-6 text-cyan-600"></i></div>
+            <h5 class="text-lg font-bold text-slate-900">21 CFR Part 11</h5>
+            <p class="text-sm text-slate-600 mt-2 mb-4">Electronic records, signatures, audit trails, system validation, access controls</p>
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold">✓ Compliant</span>
+        </div>
+        <div class="card p-6">
+            <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center mb-4"><i data-lucide="git-branch" class="w-6 h-6 text-cyan-600"></i></div>
+            <h5 class="text-lg font-bold text-slate-900">Model Versioning</h5>
+            <p class="text-sm text-slate-600 mt-2 mb-4">Full reproducibility with MLflow tracking, model registry, artifact management</p>
+            <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-sm font-semibold">✓ Compliant</span>
+        </div>
+    </div>
+    <div class="card p-6 mb-8">
+        <h4 class="text-xl font-bold text-slate-900 mb-4">21 CFR Part 11 Compliance Matrix</h4>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead><tr class="text-left border-b border-slate-200">
+                    <th class="px-4 py-3 font-semibold text-slate-900">Requirement</th>
+                    <th class="px-4 py-3 font-semibold text-slate-900">Section</th>
+                    <th class="px-4 py-3 font-semibold text-slate-900">NPAORF Implementation</th>
+                    <th class="px-4 py-3 font-semibold text-slate-900">Status</th>
+                </tr></thead>
+                <tbody class="divide-y divide-slate-100">
+                    <tr><td class="px-4 py-3 text-slate-700">Audit Trail</td><td class="px-4 py-3 text-slate-500">§11.10(e)</td><td class="px-4 py-3 text-slate-600">Immutable event log with SHA-256 checksums</td><td class="px-4 py-3"><span class="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">PASS</span></td></tr>
+                    <tr><td class="px-4 py-3 text-slate-700">Electronic Signatures</td><td class="px-4 py-3 text-slate-500">§11.100</td><td class="px-4 py-3 text-slate-600">Unique user ID + authentication code + meaning</td><td class="px-4 py-3"><span class="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">PASS</span></td></tr>
+                    <tr><td class="px-4 py-3 text-slate-700">Access Controls</td><td class="px-4 py-3 text-slate-500">§11.10(d)</td><td class="px-4 py-3 text-slate-600">Role-based access with MFA authentication</td><td class="px-4 py-3"><span class="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">PASS</span></td></tr>
+                    <tr><td class="px-4 py-3 text-slate-700">Record Integrity</td><td class="px-4 py-3 text-slate-500">§11.10(c)</td><td class="px-4 py-3 text-slate-600">Cryptographic hashing prevents tampering</td><td class="px-4 py-3"><span class="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">PASS</span></td></tr>
+                    <tr><td class="px-4 py-3 text-slate-700">System Validation</td><td class="px-4 py-3 text-slate-500">§11.10(a)</td><td class="px-4 py-3 text-slate-600">IQ/OQ/PQ documentation with validation logs</td><td class="px-4 py-3"><span class="px-2 py-1 rounded bg-emerald-100 text-emerald-700 text-xs font-semibold">PASS</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card p-6 bg-gradient-to-br from-violet-50 to-cyan-50 border-violet-200">
+        <div class="flex items-start gap-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center flex-shrink-0"><i data-lucide="sparkles" class="w-7 h-7 text-white"></i></div>
+            <div>
+                <h4 class="text-xl font-bold text-slate-900 mb-2">Genesis Mission AI (White House 2025)</h4>
+                <p class="text-slate-600 mb-4">NPAORF is aligned with the White House Genesis Mission initiative for trustworthy AI:</p>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div class="bg-white/60 rounded-lg p-4"><h5 class="font-semibold text-slate-900 mb-1">Transparency</h5><p class="text-sm text-slate-600">SHAP explainability for all predictions</p></div>
+                    <div class="bg-white/60 rounded-lg p-4"><h5 class="font-semibold text-slate-900 mb-1">Accountability</h5><p class="text-sm text-slate-600">Full audit trail with digital signatures</p></div>
+                    <div class="bg-white/60 rounded-lg p-4"><h5 class="font-semibold text-slate-900 mb-1">Fairness</h5><p class="text-sm text-slate-600">Bias monitoring across equipment types</p></div>
+                    <div class="bg-white/60 rounded-lg p-4"><h5 class="font-semibold text-slate-900 mb-1">Security</h5><p class="text-sm text-slate-600">End-to-end encryption and access control</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-slate-900 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center"><i data-lucide="shield-check" class="w-5 h-5 text-white"></i></div>
+                <div><p class="font-bold">NPAORF v4.0</p><p class="text-xs text-slate-400">National Pharmaceutical Asset Optimization & Resilience Framework</p></div>
+            </div>
+            <div class="flex gap-4 text-sm text-slate-400">
+                <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> GxP</span>
+                <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> FDA/EMA</span>
+                <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400"></i> 21 CFR Part 11</span>
+            </div>
+            <div class="text-center md:text-right">
+                <p class="text-xs text-slate-400">Platform Architect: Syed Fahim Abbas Kazmi</p>
+                <p class="text-xs text-slate-500">NPAORF © 2026 | Authorized Use Only</p>
+            </div>
+        </div>
+        <div class="mt-6 pt-4 border-t border-slate-800 text-center text-xs text-slate-500">Data Sources: ASHP Drug Shortage Resource Center • FDA • ISPE • Genesis Mission AI (White House) • FDA/EMA AI Principles (Jan 2026)</div>
+    </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

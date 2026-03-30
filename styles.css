@@ -1,0 +1,789 @@
+/**
+ * NPAORF v4.0 - Enterprise Candidate
+ * National Pharmaceutical Asset Optimization & Resilience Framework
+ * Custom Styles - Presentation Layer
+ * 
+ * Lead Architect: Syed Fahim Abbas Kazmi
+ * Last Updated: January 29, 2026
+ * 
+ * This file contains:
+ *   - Custom animations (pulse, slide-in, fadeInUp)
+ *   - Glassmorphism effects
+ *   - Component styling (cards, alerts, range inputs)
+ *   - Print styles
+ */
+
+/* ==========================================================================
+   ROOT VARIABLES & BASE STYLES
+   ========================================================================== */
+
+:root {
+    --color-primary-50: #ecfeff;
+    --color-primary-100: #cffafe;
+    --color-primary-500: #06b6d4;
+    --color-primary-600: #0891b2;
+    --color-primary-700: #0e7490;
+    
+    --color-secondary-500: #2563eb;
+    --color-secondary-600: #1d4ed8;
+    
+    --color-accent-500: #7c3aed;
+    
+    --color-success-500: #059669;
+    --color-success-600: #047857;
+    
+    --color-warning-500: #d97706;
+    --color-warning-600: #b45309;
+    
+    --color-danger-500: #dc2626;
+    --color-danger-600: #b91c1c;
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    
+    --transition-fast: 150ms ease;
+    --transition-base: 200ms ease;
+    --transition-slow: 300ms ease;
+}
+
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ==========================================================================
+   SCROLLBAR CUSTOMIZATION
+   ========================================================================== */
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes pulseShadow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(8, 145, 178, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(8, 145, 178, 0);
+    }
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px rgba(8, 145, 178, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 8px rgba(8, 145, 178, 0.8));
+    }
+}
+
+/* ==========================================================================
+   ANIMATION UTILITY CLASSES
+   ========================================================================== */
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+.pulse-dot {
+    animation: pulse 2s infinite;
+}
+
+.pulse-shadow {
+    animation: pulseShadow 2s infinite;
+}
+
+.glow {
+    animation: glow 2s ease-in-out infinite;
+}
+
+/* Staggered animation delays for grids */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* ==========================================================================
+   CARD COMPONENT - GLASSMORPHISM EFFECTS
+   ========================================================================== */
+
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    border: 1px solid #e2e8f0;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card-glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.card-elevated {
+    box-shadow: var(--shadow-lg);
+}
+
+.card-elevated:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   GRADIENT TEXT EFFECT
+   ========================================================================== */
+
+.gradient-text {
+    background: linear-gradient(135deg, #0891b2, #2563eb, #7c3aed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gradient-text-danger {
+    background: linear-gradient(135deg, #dc2626, #ea580c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gradient-text-success {
+    background: linear-gradient(135deg, #059669, #0891b2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==========================================================================
+   CUSTOM RANGE INPUT STYLING
+   ========================================================================== */
+
+.range-container {
+    position: relative;
+}
+
+.range-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    transform: translateY(-50%);
+}
+
+.range-fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 8px;
+    background: linear-gradient(90deg, #0891b2, #2563eb);
+    border-radius: 4px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: width var(--transition-fast);
+}
+
+input[type="range"] {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 24px;
+    background: transparent;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #0891b2, #2563eb);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(8, 145, 178, 0.4);
+    cursor: pointer;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(8, 145, 178, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #0891b2, #2563eb);
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 2px 8px rgba(8, 145, 178, 0.4);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   SELECT DROPDOWN STYLING
+   ========================================================================== */
+
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+select:focus {
+    outline: none;
+    ring: 2px solid rgba(8, 145, 178, 0.5);
+}
+
+/* ==========================================================================
+   ALERT POPUP COMPONENT
+   ========================================================================== */
+
+.alert-popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 420px;
+}
+
+.alert-popup.hidden {
+    transform: translateX(500px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.alert-popup.show {
+    animation: slideIn 0.5s ease-out forwards;
+}
+
+/* ==========================================================================
+   STATE CARD COMPONENT
+   ========================================================================== */
+
+.state-card {
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.state-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.state-card.critical {
+    background: linear-gradient(135deg, #fef2f2, #fff);
+    border-color: #fca5a5;
+}
+
+.state-card.at-risk {
+    background: linear-gradient(135deg, #fffbeb, #fff);
+    border-color: #fcd34d;
+}
+
+.state-card.stable {
+    background: linear-gradient(135deg, #ecfdf5, #fff);
+    border-color: #6ee7b7;
+}
+
+/* ==========================================================================
+   TABLE SORTING
+   ========================================================================== */
+
+.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--transition-fast);
+}
+
+.sortable:hover {
+    color: #0891b2;
+}
+
+.sortable.sorted-asc::after {
+    content: ' ▲';
+    font-size: 0.75em;
+}
+
+.sortable.sorted-desc::after {
+    content: ' ▼';
+    font-size: 0.75em;
+}
+
+/* ==========================================================================
+   HARDWARE AGNOSTIC CONFIGURATION PANEL
+   Phase 2 Feature - Prong 1 Proof
+   ========================================================================== */
+
+.config-panel {
+    background: linear-gradient(135deg, #f0fdfa, #ecfeff);
+    border: 2px dashed #0891b2;
+    border-radius: var(--radius-lg);
+}
+
+.config-panel .equipment-select {
+    min-width: 180px;
+}
+
+.config-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #0891b2, #2563eb);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==========================================================================
+   VALIDATION LOG STYLES (Phase 2)
+   ========================================================================== */
+
+.audit-row {
+    transition: background-color var(--transition-fast);
+}
+
+.audit-row:hover {
+    background-color: #f8fafc;
+}
+
+.signature-hash {
+    font-family: 'SF Mono', 'Consolas', 'Liberation Mono', monospace;
+    font-size: 0.7rem;
+    color: #64748b;
+    word-break: break-all;
+}
+
+/* ==========================================================================
+   LOADING STATES
+   ========================================================================== */
+
+.skeleton {
+    background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #0891b2;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 640px) {
+    .alert-popup {
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+    
+    .card {
+        border-radius: 12px;
+    }
+}
+
+/* ==========================================================================
+   PRINT STYLES
+   ========================================================================== */
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #e2e8f0 !important;
+        page-break-inside: avoid;
+    }
+    
+    header {
+        position: relative !important;
+    }
+    
+    .alert-popup {
+        display: none !important;
+    }
+    
+    section {
+        page-break-inside: avoid;
+    }
+    
+    .gradient-text {
+        -webkit-text-fill-color: #0891b2 !important;
+    }
+    
+    a {
+        text-decoration: none !important;
+    }
+    
+    /* Ensure charts print */
+    canvas {
+        max-width: 100% !important;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY - REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ==========================================================================
+   HIGH CONTRAST MODE
+   ========================================================================== */
+
+@media (prefers-contrast: high) {
+    .card {
+        border-width: 2px;
+    }
+    
+    .gradient-text {
+        -webkit-text-fill-color: #0e7490;
+    }
+}
+
+/* ==========================================================================
+   PHASE 2: REGULATORY LAYER - 21 CFR Part 11 Compliance Styles
+   ========================================================================== */
+
+/* Navigation Tabs */
+.nav-tab {
+    color: #64748b;
+    background: transparent;
+}
+
+.nav-tab:hover {
+    color: #334155;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.nav-tab.active {
+    color: #0891b2;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Monospace Font for Hashes and Logs */
+.mono-font {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
+    font-size: 0.8125rem;
+    letter-spacing: -0.02em;
+}
+
+/* Compliance Badge */
+.compliance-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background: linear-gradient(135deg, rgba(5, 150, 105, 0.1), rgba(8, 145, 178, 0.1));
+    border: 1px solid rgba(5, 150, 105, 0.3);
+    color: #047857;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+}
+
+.compliance-badge i {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Audit Table Styles */
+#audit-table tr {
+    transition: background-color 150ms ease;
+}
+
+#audit-table tr:hover {
+    background-color: rgba(15, 23, 42, 0.5);
+}
+
+/* Signature Modal Backdrop Animation */
+#signature-modal {
+    transition: opacity 200ms ease;
+}
+
+#signature-modal > div {
+    animation: modalSlideIn 300ms ease-out;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Validation View Hidden State */
+.validation-view.hidden {
+    display: none !important;
+}
+
+/* Terminal-Style Header */
+.bg-slate-950 {
+    background-color: #020617;
+}
+
+/* Hash Copy Tooltip Effect */
+.hash-copied {
+    position: relative;
+}
+
+.hash-copied::after {
+    content: 'Copied!';
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 8px;
+    background: #059669;
+    color: white;
+    font-size: 10px;
+    border-radius: 4px;
+    animation: fadeOut 1s ease-out forwards;
+}
+
+@keyframes fadeOut {
+    0%, 70% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Print Styles for Audit Log */
+@media print {
+    .validation-view {
+        display: block !important;
+    }
+    
+    #audit-table {
+        font-size: 9px;
+    }
+    
+    .bg-slate-950 {
+        background: white !important;
+        color: black !important;
+    }
+    
+    #audit-table tr {
+        border-bottom: 1px solid #e2e8f0;
+    }
+}
+
+/* ==========================================================================
+   PHASE 3: ECONOMIC ENGINE - Federal Impact Styles
+   ========================================================================== */
+
+/* Federal Impact Card Pulse Effect */
+#calc-lives {
+    animation: numberPulse 2s ease-in-out infinite;
+}
+
+@keyframes numberPulse {
+    0%, 100% {
+        text-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Healthcare Savings Card Highlight */
+#calc-healthcare-savings {
+    background: linear-gradient(135deg, #1d4ed8 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Batch Counter Animation on Update */
+.calc-updated {
+    animation: calcFlash 0.3s ease-out;
+}
+
+@keyframes calcFlash {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+/* ============================================================
+   FIX: View Section Visibility & Nav Tab Styling
+   ============================================================ */
+
+/* Ensure view sections stack properly - no overlap */
+.view-section {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.view-section.hidden {
+    display: none !important;
+}
+
+/* Navigation Tab Styling */
+.nav-tab {
+    color: #64748b;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.nav-tab:hover {
+    color: #334155;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.nav-tab.active {
+    color: #0891b2;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure cards don't overlap */
+.card {
+    position: relative;
+    z-index: 1;
+}
+
+/* Fix any absolute positioning issues */
+section > div {
+    position: relative;
+}
