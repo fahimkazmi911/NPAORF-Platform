@@ -1,0 +1,172 @@
+{
+  "metadata": {
+    "source": "NPAORF National Surveillance Dashboard",
+    "author": "Syed Fahim Abbas Kazmi",
+    "orcid": "https://orcid.org/0009-0000-5075-9638",
+    "doi": "https://doi.org/10.5281/zenodo.19310968",
+    "baseline": "ASHP/FDA January 2026",
+    "last_updated": "2026-03-29",
+    "version": "1.0.0",
+    "license": "CC BY 4.0",
+    "description": "Structured pharmaceutical drug shortage intelligence data derived from ASHP and FDA published baseline statistics. Part of the NPAORF open-source predictive maintenance platform aligned with Executive Order 14017.",
+    "disclaimer": "This dataset reflects prototype demonstration data based on published ASHP/FDA January 2026 shortage statistics. Not for clinical use."
+  },
+  "summary": {
+    "total_active_shortages": 323,
+    "critical_count": 4,
+    "at_risk_count": 14,
+    "monitoring_count": 7,
+    "annual_hospital_burden_usd": 900000000,
+    "equipment_failure_pct": 0.40,
+    "states_affected": 6
+  },
+  "shortages": [
+    {
+      "id": "SH001",
+      "drug_name": "Albuterol Sulfate",
+      "category": "Respiratory",
+      "state": "NJ",
+      "equipment_type": "MDI Filling Line",
+      "health_score": 73,
+      "risk_level": "at-risk",
+      "trend": "worsening",
+      "shortage_days": 45,
+      "root_cause": "Manufacturing capacity constraint",
+      "patients_affected_estimate": 25000000
+    },
+    {
+      "id": "SH002",
+      "drug_name": "Insulin Glargine",
+      "category": "Endocrine",
+      "state": "IN",
+      "equipment_type": "Bioreactor",
+      "health_score": 58,
+      "risk_level": "critical",
+      "trend": "worsening",
+      "shortage_days": 120,
+      "root_cause": "Bioreactor bearing degradation",
+      "patients_affected_estimate": 3200000
+    },
+    {
+      "id": "SH003",
+      "drug_name": "Azithromycin Injection",
+      "category": "Anti-Infective",
+      "state": "NC",
+      "equipment_type": "HPLC System",
+      "health_score": 81,
+      "risk_level": "monitoring",
+      "trend": "stable",
+      "shortage_days": 30,
+      "root_cause": "Increased demand",
+      "patients_affected_estimate": 890000
+    },
+    {
+      "id": "SH004",
+      "drug_name": "Lidocaine HCl",
+      "category": "Anesthetic",
+      "state": "PA",
+      "equipment_type": "Mixing Vessel",
+      "health_score": 65,
+      "risk_level": "at-risk",
+      "trend": "improving",
+      "shortage_days": 60,
+      "root_cause": "API supply constraints",
+      "patients_affected_estimate": 1200000
+    },
+    {
+      "id": "SH005",
+      "drug_name": "Sodium Chloride 0.9%",
+      "category": "IV Fluids",
+      "state": "TX",
+      "equipment_type": "Sterile Filling Line",
+      "health_score": 88,
+      "risk_level": "monitoring",
+      "trend": "stable",
+      "shortage_days": 15,
+      "root_cause": "Seasonal demand surge",
+      "patients_affected_estimate": 4500000
+    },
+    {
+      "id": "SH006",
+      "drug_name": "Epinephrine",
+      "category": "Cardiovascular",
+      "state": "NJ",
+      "equipment_type": "Auto-Injector Assembly",
+      "health_score": 62,
+      "risk_level": "critical",
+      "trend": "worsening",
+      "shortage_days": 90,
+      "root_cause": "Manufacturing equipment delay",
+      "patients_affected_estimate": 2100000
+    },
+    {
+      "id": "SH007",
+      "drug_name": "Norepinephrine",
+      "category": "Cardiovascular",
+      "state": "NC",
+      "equipment_type": "Bioreactor",
+      "health_score": 70,
+      "risk_level": "at-risk",
+      "trend": "stable",
+      "shortage_days": 55,
+      "root_cause": "Raw material shortage",
+      "patients_affected_estimate": 780000
+    },
+    {
+      "id": "SH008",
+      "drug_name": "Cisplatin",
+      "category": "Oncology",
+      "state": "CA",
+      "equipment_type": "Sterile Filling Line",
+      "health_score": 45,
+      "risk_level": "critical",
+      "trend": "worsening",
+      "shortage_days": 180,
+      "root_cause": "Single-source manufacturer equipment failure",
+      "patients_affected_estimate": 156000
+    },
+    {
+      "id": "SH009",
+      "drug_name": "Carboplatin",
+      "category": "Oncology Support",
+      "state": "CA",
+      "equipment_type": "Chromatography System",
+      "health_score": 52,
+      "risk_level": "critical",
+      "trend": "worsening",
+      "shortage_days": 150,
+      "root_cause": "Purification system degradation",
+      "patients_affected_estimate": 134000
+    },
+    {
+      "id": "SH010",
+      "drug_name": "Dextrose 5%",
+      "category": "IV Fluids",
+      "state": "TX",
+      "equipment_type": "Sterile Filling Line",
+      "health_score": 85,
+      "risk_level": "monitoring",
+      "trend": "stable",
+      "shortage_days": 20,
+      "root_cause": "Production ramp-up delay",
+      "patients_affected_estimate": 3800000
+    }
+  ],
+  "geographic_distribution": {
+    "NJ": { "state_name": "New Jersey", "active_shortages": 8, "risk_level": "critical" },
+    "NC": { "state_name": "North Carolina", "active_shortages": 6, "risk_level": "at-risk" },
+    "PA": { "state_name": "Pennsylvania", "active_shortages": 5, "risk_level": "at-risk" },
+    "CA": { "state_name": "California", "active_shortages": 4, "risk_level": "critical" },
+    "IN": { "state_name": "Indiana", "active_shortages": 4, "risk_level": "at-risk" },
+    "TX": { "state_name": "Texas", "active_shortages": 2, "risk_level": "monitoring" }
+  },
+  "economic_model": {
+    "downtime_cost_per_hour_usd": 540000,
+    "average_batch_value_usd": 2500000,
+    "pm_efficacy_rate": 0.85,
+    "annual_batch_loss_rate": 0.15,
+    "hospital_burden_per_shortage_day_usd": 50000,
+    "mortality_risk_factor": 0.023,
+    "patients_per_shortage": 45000
+  }
+}
