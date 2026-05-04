@@ -1,5 +1,5 @@
 NPAORF — National Pharmaceutical Asset Optimization & Resilience Framework
-![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19310969.svg)
+![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19310968.svg)
 ![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)
 ![Platform](https://img.shields.io/badge/Platform-GxP%20Compliant-blue)
 ![Status](https://img.shields.io/badge/Status-Prototype%20v4.0-green)
